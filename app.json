@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "see-event-mobile",
-    "slug": "see-event-mobile",
+    "name": "rn-mobile",
+    "slug": "rn-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "see.event.mobile",
+    "scheme": "rn-mobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
