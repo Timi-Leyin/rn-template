@@ -8,15 +8,17 @@ import {
   PanResponder,
 } from "react-native";
 import * as Icon from "iconsax-react-native";
-import NativeText from "../ui/native-text";
 
-interface ToastOptions {
+interface ToastConfig {
+  position?: "top" | "center" | "bottom";
+  duration?: number;
+  stack?: boolean;
+}
+interface ToastOptions extends ToastConfig {
   id: string;
   title: string;
   icon?: any;
   type?: "success" | "info" | "error";
-  position?: "top" | "center" | "bottom";
-  duration?: number;
 }
 
 class ToastManager {
@@ -47,16 +49,27 @@ class ToastManager {
 
 export const toast = ToastManager.getInstance();
 
-export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const ToastProvider: React.FC<{
+  children: React.ReactNode;
+  config?: ToastConfig;
+}> = ({ children, config }) => {
   const [toasts, setToasts] = useState<ToastOptions[]>([]);
   const [fadeAnims, setFadeAnims] = useState<Animated.Value[]>([]);
   const [currentToastIndex, setCurrentToastIndex] = useState(0); // For swipe browsing
 
   useEffect(() => {
     toast.setShowToastCallback((options) => {
-      const newToast = { ...options };
+      if (!options.stack) {
+        // Clear all current toasts if stack is false
+        setToasts([]);
+        setFadeAnims([]);
+      }
+
+      const newToast = { 
+        ...options ,
+        ...config,
+      
+      };
       const newFadeAnim = new Animated.Value(0);
 
       setToasts((prev) => [...prev, newToast]);
@@ -143,7 +156,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
                 <Fragment>
                   {!toast.type ||
                     (toast.type == "info" && (
-                      <Icon.InfoCircle variant="Bulk" color="darkorange" />
+                      <Icon.InfoCircle variant="Bulk" color="#000" />
                     ))}
                   {toast.type == "error" && (
                     <Icon.CloseCircle variant="Bulk" color="red" />
@@ -153,9 +166,8 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
                   )}
                 </Fragment>
               )}
-              {/* */}
             </View>
-            <NativeText weight="semibold" style={styles.toastText}>{toast.title}</NativeText>
+            <Text style={styles.toastText}>{toast.title}</Text>
           </Animated.View>
         );
       })}
@@ -175,7 +187,6 @@ const styles = StyleSheet.create({
     right: 20,
     display: "flex",
     flexDirection: "row",
-    // backgroundColor: "rgba(0,0,0,0.8)",
     backgroundColor: "#eee",
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -187,7 +198,6 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
   },
   toastText: {
-    // color: "white",
     fontSize: 14,
     fontWeight: "600",
     textAlign: "center",
