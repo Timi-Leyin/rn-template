@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "see-planner",
-    "slug": "see-planner",
+    "name": "see-event-mobile",
+    "slug": "see-event-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "see-planner",
+    "scheme": "see.event.mobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
