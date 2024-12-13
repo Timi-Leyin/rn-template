@@ -1,5 +1,6 @@
-import { View, Text, TextProps } from "react-native";
+import { View, Text, TextProps, useColorScheme } from "react-native";
 import React from "react";
+import THEME, { THEME_KEY } from "@/config/theme";
 
 export interface NativeTextProps extends TextProps {
   weight?: "light" | "regular" | "medium" | "semibold" | "bold";
@@ -7,6 +8,8 @@ export interface NativeTextProps extends TextProps {
 
 const NativeText = (props: NativeTextProps) => {
   const { children, style, weight, ...rest } = props;
+  const colorScheme: THEME_KEY = useColorScheme() || "light";
+  const color = THEME[colorScheme].colors.white;
   let fontFamily: string;
   switch (weight) {
     case "light":
@@ -38,6 +41,7 @@ const NativeText = (props: NativeTextProps) => {
       style={[
         {
           fontFamily,
+          color
         },
         style,
       ]}

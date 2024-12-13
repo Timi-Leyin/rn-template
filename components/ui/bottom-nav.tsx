@@ -13,6 +13,9 @@ const BottomNav = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   arranged.push(state.routes[4]);
   arranged.push(state.routes[2]);
   arranged.push(state.routes[3]);
+
+  
+
   return (
     <View
       style={[
@@ -68,7 +71,6 @@ const BottomNav = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
     height: 70,
     justifyContent: "space-evenly",
     alignItems: "center",
