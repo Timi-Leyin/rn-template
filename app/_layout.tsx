@@ -5,10 +5,12 @@ import {
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import { StyleSheet } from "react-native-unistyles";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import { useColorScheme } from "react-native";
 import {
   Quicksand_300Light,
   Quicksand_400Regular,
@@ -17,11 +19,18 @@ import {
   Quicksand_700Bold,
 } from "@expo-google-fonts/quicksand";
 
-import { ToastProvider } from "@/components/lib/toast-manager";
-import { useColorScheme } from "react-native";
-
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+StyleSheet.configure({
+  themes: {
+    name: {
+      colors: {
+        white: "#ffffff",
+      },
+    },
+  },
+});
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -45,18 +54,12 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <ToastProvider config={{
-        duration:4000,
-        position:"bottom",
-        stack:true
-      }}>
-        <Stack>
-          <Stack.Screen name="(home)" options={{ headerShown: false }} />
-          <Stack.Screen name="(entry)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="auto" />
-      </ToastProvider>
+      <Stack>
+        <Stack.Screen name="(entry)" options={{ headerShown: false }} />
+        <Stack.Screen name="(home)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      <StatusBar style="auto" />
     </ThemeProvider>
   );
 }

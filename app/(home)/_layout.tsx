@@ -1,22 +1,61 @@
-import { Tabs } from "expo-router";
 import React from "react";
+import { withLayoutContext } from "expo-router";
+import {
+  createNativeBottomTabNavigator,
+  NativeBottomTabNavigationOptions,
+  NativeBottomTabNavigationEventMap,
+} from "@bottom-tabs/react-navigation";
+import { ParamListBase, TabNavigationState } from "@react-navigation/native";
+import { COLORS } from "../../constants/theme";
 
-import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import BottomNav from "@/components/ui/bottom-nav";
+const BottomTabNavigator = createNativeBottomTabNavigator().Navigator;
 
-
-const CustomBottomTabs = (props: BottomTabBarProps) => {
-  return <BottomNav {...props} />;
-};
-
+const Tabs = withLayoutContext<
+  NativeBottomTabNavigationOptions,
+  typeof BottomTabNavigator,
+  TabNavigationState<ParamListBase>,
+  NativeBottomTabNavigationEventMap
+>(BottomTabNavigator);
 
 export default function TabLayout() {
   return (
-    <Tabs
-    screenOptions={{
-      headerShown: false,
-    }}
-    tabBar={CustomBottomTabs}
-  />
+    <Tabs 
+      hapticFeedbackEnabled 
+      translucent
+      screenOptions={{
+        tabBarActiveTintColor: COLORS.primary,
+      }}
+    >
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: "Home",
+          tabBarIcon: () => ({ sfSymbol: "circle.grid.2x2.fill" }),
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: "Explore",
+          tabBarIcon: () => ({ sfSymbol: "safari.fill" }),
+        }}
+      />
+
+      <Tabs.Screen
+        name="settings"
+        options={{
+          tabBarBadge: "3",
+          title: "Settings",
+          tabBarIcon: () => ({ sfSymbol: "gear" }),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: () => ({ sfSymbol: "person.circle.fill" }),
+        }}
+      />
+    </Tabs>
   );
 }

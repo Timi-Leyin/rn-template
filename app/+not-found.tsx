@@ -1,13 +1,12 @@
-import NativeText from "@/components/ui/native-text";
-import { Stack } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text } from 'react-native'
+import React from 'react'
 
-export default function NotFoundScreen() {
+const NotFound = () => {
   return (
-    <SafeAreaView>
-      <Stack.Screen options={{ title: "Oops!" }} />
-      <NativeText>This screen doesn't exist.</NativeText>
-    </SafeAreaView>
-  );
+    <View>
+      <Text>NotFound</Text>
+    </View>
+  )
 }
 
+export default NotFound

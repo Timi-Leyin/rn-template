@@ -5,17 +5,23 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "rn-mobile",
+    "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "buildNumber": "1",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.originaltimi2.rnmobile",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.originaltimi2.rnmobile"
     },
     "web": {
       "bundler": "metro",
@@ -24,6 +30,7 @@
     },
     "plugins": [
       "expo-router",
+      "react-native-bottom-tabs",
       [
         "expo-splash-screen",
         {
@@ -32,10 +39,29 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
+      "expo-font",
+      "expo-web-browser",
+      "react-native-edge-to-edge"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3febec95-46ed-4d83-9fec-b03cba7bcc18"
+      }
     }
   }
 }
