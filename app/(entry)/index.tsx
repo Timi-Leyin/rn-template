@@ -1,18 +1,18 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import NativeButton from "@/components/ui/native-button";
+import { Button } from "@/components/ui/button";
 import { router } from "expo-router";
+import { Text } from "@/components/ui/text";
 
-const OnboardingScreen = () => {
+const Entry = () => {
   return (
-    <SafeAreaView>
-      <Text>hey</Text>
-      <NativeButton mode="fill" text={"GO"}  onPress={()=>{
-        router.navigate("/home")
-      }}  />
-    </SafeAreaView>
+    <View style={{ padding: 50 }}>
+      <Text variant="heading">Entry</Text>
+      <Button onPress={() => router.navigate("/home")}>
+        <Text style={{ color: "white" }}>Dashboard</Text>
+      </Button>
+    </View>
   );
 };
 
-export default OnboardingScreen;
+export default Entry;

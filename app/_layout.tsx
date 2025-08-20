@@ -1,65 +1,46 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { useFonts } from "expo-font";
+import { ThemeProvider } from "@/theme/theme-provider";
 import { Stack } from "expo-router";
-import { StyleSheet } from "react-native-unistyles";
-import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
-import { useColorScheme } from "react-native";
-import {
-  Quicksand_300Light,
-  Quicksand_400Regular,
-  Quicksand_500Medium,
-  Quicksand_600SemiBold,
-  Quicksand_700Bold,
-} from "@expo-google-fonts/quicksand";
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-StyleSheet.configure({
-  themes: {
-    name: {
-      colors: {
-        white: "#ffffff",
-      },
-    },
-  },
-});
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useFonts } from "expo-font";
+import PopupProvider from "@/lib/popup/popup-provider";
+import { ToastProvider } from "@/lib/toast";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    Quicksand_300Light,
-    Quicksand_400Regular,
-    Quicksand_500Medium,
-    Quicksand_600SemiBold,
-    Quicksand_700Bold,
+  const [fontsLoaded] = useFonts({
+    "PlusJakartaSans-Regular": require("../assets/fonts/plus-jarkarta-sans/PlusJakartaSans-Regular.ttf"),
+    "PlusJakartaSans-Medium": require("../assets/fonts/plus-jarkarta-sans/PlusJakartaSans-Medium.ttf"),
+    "PlusJakartaSans-SemiBold": require("../assets/fonts/plus-jarkarta-sans/PlusJakartaSans-SemiBold.ttf"),
+    "PlusJakartaSans-Bold": require("../assets/fonts/plus-jarkarta-sans/PlusJakartaSans-Bold.ttf"),
+    "PlusJakartaSans-ExtraBold": require("../assets/fonts/plus-jarkarta-sans/PlusJakartaSans-ExtraBold.ttf"),
+    "PlusJakartaSans-Light": require("../assets/fonts/plus-jarkarta-sans/PlusJakartaSans-Light.ttf"),
+    "PlusJakartaSans-ExtraLight": require("../assets/fonts/plus-jarkarta-sans/PlusJakartaSans-ExtraLight.ttf"),
   });
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
+  if (!fontsLoaded) {
     return null;
   }
-
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(entry)" options={{ headerShown: false }} />
-        <Stack.Screen name="(home)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PopupProvider>
+        <ToastProvider>
+          <ThemeProvider>
+            <SafeAreaProvider>
+              <Stack>
+                <Stack.Screen name="(entry)" options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="(dashboard)"
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen name="+not-found" />
+              </Stack>
+              <StatusBar style="auto" />
+            </SafeAreaProvider>
+          </ThemeProvider>
+        </ToastProvider>
+      </PopupProvider>
+    </GestureHandlerRootView>
   );
 }
